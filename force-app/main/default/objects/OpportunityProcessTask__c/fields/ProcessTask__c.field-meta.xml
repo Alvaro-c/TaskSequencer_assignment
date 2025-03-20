@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProcessTask__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Process Task related to this Junction Object between Opportunity and Process Task</description>
+    <label>Process Task</label>
+    <referenceTo>ProcessTask__c</referenceTo>
+    <relationshipLabel>OpportunityProcessTasks</relationshipLabel>
+    <relationshipName>OpportunityProcessTasks</relationshipName>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
