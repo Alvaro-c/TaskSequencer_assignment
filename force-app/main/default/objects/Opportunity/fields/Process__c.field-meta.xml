@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Process__c</fullName>
+    <description>Process used for the Task Sequencer, it will create Opportunity Task Processes to be fulfilled.</description>
+    <label>Process</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Processes</valueSetName>
+    </valueSet>
+</CustomField>
