@@ -10,9 +10,9 @@ username: [enpal@enpal.com](mailto:enpal@enpal.com)
 
 password: TaskSequencer2025
 
-To work with a new org, please, deploy all the metadata included in the project and run as Anonymous apex the following:
+To work with a new org, please, deploy all the metadata included in the project and run as Anonymous apex the content of the class :
 
-`CreateDummyData.create();`
+`CreateDummyData.cls`
 
 ### Instructions for the user
 
@@ -28,15 +28,15 @@ This feature uses the following objects and features:
 
 1st. To add a process, the name of the new Process has to be added to the Picklist Value Set “Processes”. To do that, go to Settings and then Picklist Value Sets:
 
-![image.png](https://i.postimg.cc/nhFdPCVM/image.png)
+![Picklist Value Set](https://i.postimg.cc/nhFdPCVM/image.png)
 
 2nd. Now, a Process (Process\_\_c) can be added, go to Processes tab and add one entry. The name will be restricted to the names present in the Picklist from first step.
 
-![image.png](https://i.postimg.cc/xdq69hz2/image.png)
+![Processes](https://i.postimg.cc/xdq69hz2/image.png)
 
 3rd. Process Steps can be added inside a Process. The easiest way to do that, is on the Related tab of the Process Record Page
 
-![image.png](https://i.postimg.cc/XvhQqLfy/image.png)
+![Process Tasks](https://i.postimg.cc/XvhQqLfy/image.png)
 
 4 Now that a Process and its steps are ready, we can assign it to an Opportunity.
 
@@ -46,7 +46,7 @@ Once a Process is assigned, the first related Opportunity Process Step will be a
 
 Once a Opportunity Process Step is set as completed, the next Step will be created.
 
-![image.png](https://i.postimg.cc/6qV0HNDd/image.png)
+![Opportunity](https://i.postimg.cc/6qV0HNDd/image.png)
 
 To change the Process of the Opportunity, the related Opportunity Process Steps should be deleted first.
 
@@ -118,6 +118,6 @@ This is a list of the actions performed during the development of the tasks in c
 
 ### Test Results
 
-![image.png](https://i.postimg.cc/gc3Ncvnn/image.png)
+![Tests](https://i.postimg.cc/gc3Ncvnn/image.png)
 
 Note: AgentforceHomepageController.cls is an example class and is not part of the project
