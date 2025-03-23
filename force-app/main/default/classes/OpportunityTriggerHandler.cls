@@ -6,6 +6,12 @@
  * @since   21.03.2025
  */
 public with sharing class OpportunityTriggerHandler {
+    /**
+     * @description Method to call the relevant method after trigger is fired
+     *
+     * @param  triggerOp  Trigger operation
+     * @return void
+     */
     public static void run(System.TriggerOperation triggerOp) {
         switch on triggerOp {
             when AFTER_INSERT {
@@ -71,7 +77,7 @@ public with sharing class OpportunityTriggerHandler {
             return; // Early return if no ProcessTask__c exist
         }
 
-        // Create Map with ProcessName : ProcessTask__c.Id (Each process with its first step)
+        // Create Map with ProcessName => ProcessTask__c.Id (Each process with its first step)
         Map<String, Id> processNameToTaskIdMap = createProcessNameToTaskMap(proTasL);
 
         // Create collection of OpportunityProcessTask__c for later bulk insertion
@@ -80,8 +86,6 @@ public with sharing class OpportunityTriggerHandler {
             if (opp.Process__c == null) {
                 continue; // Early return if an Opportunity doesn't have a Process
             }
-            System.debug(opp);
-            System.debug('flag');
             // Create junction objects
             OpportunityProcessTask__c opPrTask = new OpportunityProcessTask__c();
             opPrTask.Opportunity__c = opp.Id;
@@ -94,6 +98,12 @@ public with sharing class OpportunityTriggerHandler {
         insert oppProTaskL;
     }
 
+    /**
+     * @description Creates a Map of Processes with assoviated with the Id of the first task related to that process
+     *
+     * @param  proTasL  Collection of Process Tasks
+     * @return void
+     */
     public static Map<String, Id> createProcessNameToTaskMap(ProcessTask__c[] proTasL) {
         Map<String, Id> processNameToTaskIdMap = new Map<String, Id>();
         for (ProcessTask__c proTak : proTasL) {
