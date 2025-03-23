@@ -17,6 +17,9 @@ public with sharing class OpportunityProcessTaskTriggerHandler {
             when AFTER_UPDATE {
                 afterUpdate(Trigger.newMap, Trigger.oldMap);
             }
+            when BEFORE_DELETE {
+                beforeDelete(Trigger.oldMap);
+            }
         }
     }
 
@@ -185,10 +188,6 @@ public with sharing class OpportunityProcessTaskTriggerHandler {
      * @return Id of the next ProcessTask__c in the sequence, or null if none is found
      */
     public static Id getNextStep(ProcessTask__c[] processTasks, Map<Id, Integer> oppyToStepsMap, Id oppyId) {
-        System.debug(processTasks);
-        System.debug(oppyToStepsMap);
-        System.debug(oppyId);
-        System.debug('FLAG');
         for (ProcessTask__c pt : processTasks) {
             if (pt.SequentialOrder__c == oppyToStepsMap.get(oppyId) + 1) {
                 return pt.Id;
@@ -196,5 +195,25 @@ public with sharing class OpportunityProcessTaskTriggerHandler {
         }
         // Return null if no result, for example, missing step, or last step
         return null;
+    }
+
+    /**
+     * @description Called before delete trigger
+     *
+     * @param  newItems  Trigger variable
+     * @param  oldItems  Trigger variable
+     * @return void
+     */
+    public static void beforeDelete(Map<Id, SObject> oldItems) {
+        preventRecreation();
+    }
+
+    /**
+     * @description When one OpportunityProcessTask__c is deleted, prevents the creation of a new one, due to Roll Up Opportunity update
+     *
+     * @return void
+     */
+    public static void preventRecreation() {
+        RecursiveCheck.recursiveOpportunityTrigger = true;
     }
 }

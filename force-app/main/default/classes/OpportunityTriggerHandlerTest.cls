@@ -126,9 +126,10 @@ public with sharing class OpportunityTriggerHandlerTest {
         Opportunity[] oppyL = [SELECT Id FROM Opportunity];
         System.assertEquals(2, oppyL.size(), 'Expected two Opportunities');
 
-        // When the Status of the opportunities are updated
+        // When the Processes of the opportunities are assigned
         oppyL[0].Process__c = PROCESS_NAME;
         oppyL[1].Process__c = PROCESS_NAME2;
+        RecursiveCheck.recursiveOpportunityTrigger = false; // Reset the recursive check modified by previous Test operation
         Test.startTest();
         update oppyL;
         Test.stopTest();
@@ -153,5 +154,41 @@ public with sharing class OpportunityTriggerHandlerTest {
             oppProcTask2[0].StepName__c,
             'Expected the OpportunityProcessTask__c to be the first step'
         );
+    }
+
+    @isTest
+    public static void opportunityWithoutProcessTest() {
+        // Given an Opportunity without process
+        Opportunity opp = TestDataFactory.createOpportunity();
+        insert opp;
+
+        // Then an update is done
+        opp.Amount = 1000;
+        Test.startTest();
+        update opp;
+        Test.stopTest();
+
+        // Then no OpportunityProcessTask__c is created
+        OpportunityProcessTask__c[] oppProcTask = [SELECT Id FROM OpportunityProcessTask__c];
+        System.assertEquals(0, oppProcTask.size(), 'Expected no OpportunityProcessTask__c');
+    }
+
+    @isTest
+    public static void processWithoutSteps() {
+        // Given a process without steps
+        Process__c proc2 = TestDataFactory.createProcess(PROCESS_NAME2);
+        insert proc2;
+
+        // When it's assigned to an Opportunity
+        Opportunity opp = TestDataFactory.createOpportunity();
+        opp.Process__c = PROCESS_NAME2;
+
+        Test.startTest();
+        insert opp;
+        Test.stopTest();
+
+        // Then no OpportunityProcessTask__c is created
+        OpportunityProcessTask__c[] oppProcTask = [SELECT Id FROM OpportunityProcessTask__c];
+        System.assertEquals(0, oppProcTask.size(), 'Expected no OpportunityProcessTask__c');
     }
 }

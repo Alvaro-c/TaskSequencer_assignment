@@ -13,6 +13,10 @@ public with sharing class OpportunityTriggerHandler {
      * @return void
      */
     public static void run(System.TriggerOperation triggerOp) {
+        if (RecursiveCheck.recursiveOpportunityTrigger) {
+            return;
+        }
+        RecursiveCheck.recursiveOpportunityTrigger = true; // This is needed due to the Roll Up summary field in Oppy
         switch on triggerOp {
             when AFTER_INSERT {
                 afterInsert(Trigger.newMap);
@@ -43,7 +47,10 @@ public with sharing class OpportunityTriggerHandler {
      */
     public static void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         Map<Id, Opportunity> newOppies = (Map<Id, Opportunity>) newItems;
-        applyProcess(newOppies);
+        Map<Id, Opportunity> oldOppies = (Map<Id, Opportunity>) oldItems;
+        // Apply processes only to relevant opportunities (those which Process has been modified as is not null)
+        Map<Id, Opportunity> relevantOppies = getOpportunitiesWithModifiedProcess(newOppies, oldOppies);
+        applyProcess(relevantOppies);
     }
 
     /**
@@ -56,13 +63,7 @@ public with sharing class OpportunityTriggerHandler {
         // First, get all the processes involved
         Set<String> procSet = new Set<String>();
         for (Opportunity opp : oppies.values()) {
-            if (opp.Process__c != null) {
-                procSet.add(opp.Process__c); // Get processes by name, as they aren't a Lookup
-            }
-        }
-
-        if (procSet.isEmpty()) {
-            return; // Early return if no process present
+            procSet.add(opp.Process__c); // Get processes by name, as they aren't a Lookup
         }
 
         // When an Opportunity is created or updated, only the first step of each process is relevant
@@ -83,9 +84,6 @@ public with sharing class OpportunityTriggerHandler {
         // Create collection of OpportunityProcessTask__c for later bulk insertion
         OpportunityProcessTask__c[] oppProTaskL = new List<OpportunityProcessTask__c>{};
         for (Opportunity opp : oppies.values()) {
-            if (opp.Process__c == null) {
-                continue; // Early return if an Opportunity doesn't have a Process
-            }
             // Create junction objects
             OpportunityProcessTask__c opPrTask = new OpportunityProcessTask__c();
             opPrTask.Opportunity__c = opp.Id;
@@ -94,7 +92,6 @@ public with sharing class OpportunityTriggerHandler {
             oppProTaskL.add(opPrTask);
         }
 
-        // Bulk insertion of the new steps
         insert oppProTaskL;
     }
 
@@ -117,5 +114,28 @@ public with sharing class OpportunityTriggerHandler {
             }
         }
         return processNameToTaskIdMap;
+    }
+
+    /**
+     * @description Get only the Opportunities which Process has been modified and isn't null
+     *
+     * @param  newItems  Trigger variable parsed into Opportunity objects
+     * @param  oldItems  Trigger variable parsed into Opportunity objects
+     * @return  Map<Id, Opportunity>
+     */
+    public static Map<Id, Opportunity> getOpportunitiesWithModifiedProcess(
+        Map<Id, Opportunity> newOppies,
+        Map<Id, Opportunity> oldOppies
+    ) {
+        Map<Id, Opportunity> changedOpps = new Map<Id, Opportunity>();
+        for (Id oppId : newOppies.keySet()) {
+            Opportunity newOpp = newOppies.get(oppId);
+            Opportunity oldOpp = oldOppies.get(oppId);
+
+            if (newOpp.Process__c != oldOpp.Process__c && newOpp.Process__c != null) {
+                changedOpps.put(oppId, newOpp);
+            }
+        }
+        return changedOpps;
     }
 }

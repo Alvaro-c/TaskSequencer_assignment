@@ -106,16 +106,48 @@ public with sharing class OpportunityProcessTaskTriggerHandlerTest {
         opt.Status__c = 'Completed';
         update opt;
 
-        OpportunityProcessTask__c lastOpt = getLastStepFromOppy(opt.Opportunity__c);
-
         // When the last step is completed
-        Test.startTest();
+        OpportunityProcessTask__c lastOpt = getLastStepFromOppy(opt.Opportunity__c);
         lastOpt.Status__c = 'Completed';
+        Test.startTest();
+        update opt;
         Test.stopTest();
 
-        // Then, no new steps are created
+        // Then, no new task is created
         OpportunityProcessTask__c[] tasks = [SELECT Id FROM OpportunityProcessTask__c WHERE Opportunity__c = :opt.Opportunity__c];
         System.assertEquals(2, tasks.size(), 'Expected two OpportunityProcessTask__c created');
+    }
+
+    @isTest
+    public static void irrelevantUpdateTest() {
+        // Given a OpportunityProcessTask__c
+        OpportunityProcessTask__c[] opt = [SELECT Id, Opportunity__c FROM OpportunityProcessTask__c];
+
+        // When updating it but not as Completed
+        opt[0].Status__c = 'Failed';
+        Test.startTest();
+        update opt;
+        Test.stopTest();
+
+        // Then, there is still only one OpportunityProcessTask__c
+        opt = [SELECT Id, Opportunity__c FROM OpportunityProcessTask__c];
+        System.assertEquals(1, opt.size(), 'Expected one OpportunityProcessTask__c');
+    }
+
+    @isTest
+    public static void beforeDeleteTest() {
+        // Given a OpportunityProcessTask__c
+        OpportunityProcessTask__c[] opt = [SELECT Id, Opportunity__c FROM OpportunityProcessTask__c];
+        System.assertEquals(1, opt.size(), 'Expected one OpportunityProcessTask__c');
+
+        // When deleting the OpportunityProcessTask__c
+        Test.startTest();
+        delete opt;
+        Test.stopTest();
+
+        // Then, no OpportunityProcessTask__c should remain
+        opt = [SELECT Id, Opportunity__c FROM OpportunityProcessTask__c];
+        System.assertEquals(0, opt.size(), 'Expected no OpportunityProcessTask__c');
     }
 
     /**
