@@ -38,7 +38,7 @@ This feature uses the following objects and features:
 
 ![Process Tasks](https://i.postimg.cc/XvhQqLfy/image.png)
 
-4 Now that a Process and its steps are ready, we can assign it to an Opportunity.
+4th Now that a Process and its steps are ready, we can assign it to an Opportunity.
 
 Go to the tab Opportunities and update the value “Process”. Note that the Process is a Picklist restricted to the options of the Picklist of the step 1
 
