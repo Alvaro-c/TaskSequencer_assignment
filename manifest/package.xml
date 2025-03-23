@@ -9,6 +9,10 @@
 		<name>ApexTrigger</name>
 	</types>
 	<types>
+		<members>standard__Sales</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
 		<members>Opportunity</members>
 		<members>OpportunityProcessTask__c</members>
 		<members>ProcessTask__c</members>
@@ -30,6 +34,10 @@
 	<types>
 		<members>Enpal</members>
 		<name>PermissionSet</name>
+	</types>
+	<types>
+		<members>Admin</members>
+		<name>Profile</name>
 	</types>
 	<version>63.0</version>
 </Package>
