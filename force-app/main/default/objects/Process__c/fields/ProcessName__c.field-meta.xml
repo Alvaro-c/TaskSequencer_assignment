@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ProcessName__c</fullName>
     <description>Human readable name of the process</description>
-    <label>ProcessName</label>
+    <label>Process Name</label>
     <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

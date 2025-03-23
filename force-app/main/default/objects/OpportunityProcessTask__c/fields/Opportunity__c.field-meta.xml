@@ -5,7 +5,6 @@
     >Opportunity that is the Parent in the Master Detail Relationship side of this Junction Object between Opportunity and ProcessTask</description>
     <label>Opportunity</label>
     <referenceTo>Opportunity</referenceTo>
-    <relationshipLabel>OpportunityProcessTasks</relationshipLabel>
     <relationshipName>OpportunityProcessTasks</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

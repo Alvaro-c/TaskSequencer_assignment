@@ -10,9 +10,9 @@ username: [enpal@enpal.com](mailto:enpal@enpal.com)
 
 password: TaskSequencer2025
 
-To work with a new org, please, deploy all the metadata included in the project and run as Anonymous apex the content of the class :
+To work with a new org, please, deploy all the metadata included in the project and run as Anonymous apex the content of the script :
 
-`CreateDummyData.cls`
+`CreateDummyData.apex`
 
 ### Instructions for the user
 

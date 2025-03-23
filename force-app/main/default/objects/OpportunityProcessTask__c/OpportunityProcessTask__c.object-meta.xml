@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>OpportunityProcessTask</label>
+    <label>Opportunity Process Task</label>
     <nameField>
         <displayFormat>T-{0000}</displayFormat>
         <label>OpportunityProcessTask Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>OpportunityProcessTasks</pluralLabel>
+    <pluralLabel>Opportunity Process Tasks</pluralLabel>
     <searchLayouts />
     <sharingModel>ControlledByParent</sharingModel>
     <startsWith>Vowel</startsWith>

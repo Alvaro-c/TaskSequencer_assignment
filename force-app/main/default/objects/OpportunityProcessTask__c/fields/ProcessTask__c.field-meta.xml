@@ -5,7 +5,6 @@
     <description>Process Task related to this Junction Object between Opportunity and Process Task</description>
     <label>Process Task</label>
     <referenceTo>ProcessTask__c</referenceTo>
-    <relationshipLabel>OpportunityProcessTasks</relationshipLabel>
     <relationshipName>OpportunityProcessTasks</relationshipName>
     <required>true</required>
     <trackTrending>false</trackTrending>
