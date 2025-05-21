@@ -1,14 +1,7 @@
-# Enpal - Task Sequencer
+# Task Sequencer (Assigmnet)
 
 ### Instructions
 
-To log into an Org with the code deployed and working, please use the following credentials:
-
-URL: [https://orgfarm-1312fc3125-dev-ed.develop.my.salesforce.com](https://orgfarm-1312fc3125-dev-ed.develop.my.salesforce.com/)
-
-username: [enpal@enpal.com](mailto:enpal@enpal.com)
-
-password: TaskSequencer2025
 
 To work with a new org, please, deploy all the metadata included in the project and run as Anonymous apex the content of the script :
 
